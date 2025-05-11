@@ -1,0 +1,24 @@
+const basePrice = 1000;
+
+document.getElementById('submit').addEventListener('click', () => {
+  const education = parseFloat(document.getElementById('education').value);
+  const networth  = parseFloat(document.getElementById('networth').value);
+  const caste     = parseFloat(document.getElementById('caste').value);
+  const age       = parseFloat(document.querySelector('input[name="age"]:checked').value);
+
+  const skills = Array.from(document.querySelectorAll('.form-check-input'))
+    .filter(input => input.checked)
+    .reduce((sum, input) => sum + parseFloat(input.value), 0);
+
+  const repFactor = Array.from(document.querySelectorAll('.rep'))
+    .filter(input => input.checked)
+    .reduce((prod, input) => prod * parseFloat(input.value), 1);
+
+  let finalPrice = basePrice;
+  finalPrice *= education * networth * age;
+  finalPrice += caste + skills;
+  finalPrice *= repFactor;
+
+  document.getElementById('result').innerText = 
+    `Calculated price: ${finalPrice.toFixed(2)}`;
+});
